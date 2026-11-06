@@ -7,5 +7,5 @@ locals {
 
     vpc_final_tags = merge(var.tags , local.common_tags)
 
-    ig_final_tags = merge(var.tags, local.common_tags)
+    ig_final_tags = merge(var.igw_tags, local.common_tags)
 }

@@ -17,3 +17,7 @@ variable "tags" {
   default = {}
 }
 
+variable "igw_tags" {
+  type = map(any)
+  default = {}
+}
