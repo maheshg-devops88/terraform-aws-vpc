@@ -14,9 +14,7 @@ resource "aws_subnet" "public_subnet" {
   vpc_id = aws_vpc.main.id
   availability_zone = local.az_zones[count.index]
   cidr_block = local.public_cidr_block[count.index]
-  tags = {
-   Name = "${var.project}-${var.environment}-publicsnet-${local.az_zones[count.index]}"
-}
+  tags = merge({Name = "${var.project}-${var.environment}-publicsnet-${local.az_zones[count.index]}"}, local.common_tags)
 }
 
 resource "aws_subnet" "private_subnet" {
@@ -24,19 +22,15 @@ resource "aws_subnet" "private_subnet" {
   vpc_id = aws_vpc.main.id
   availability_zone = local.az_zones[count.index]
   cidr_block = local.private_cidr_block[count.index]
-  tags = {
-   Name = "${var.project}-${var.environment}-privatesnet-${local.az_zones[count.index]}"
-}
-}
+  tags = merge({Name = "${var.project}-${var.environment}-privatesnet-${local.az_zones[count.index]}"}, local.common_tags)
+  }
 
 resource "aws_subnet" "db_private_subnet" {
   count = length(local.az_zones)
   vpc_id = aws_vpc.main.id
   availability_zone = local.az_zones[count.index]
   cidr_block = local.db_private_cidr_block[count.index]
-  tags = {
-   Name = "${var.project}-${var.environment}-db-privatesnet-${local.az_zones[count.index]}"
-}
+  tags = merge({Name = "${var.project}-${var.environment}-db-privatesnet-${local.az_zones[count.index]}"},local.local.common_tags)
 }
 
 resource "aws_route_table" "public_rt" {
@@ -45,25 +39,20 @@ resource "aws_route_table" "public_rt" {
        cidr_block = "0.0.0.0/0"
        gateway_id = aws_internet_gateway.main.id
    }
-   tags = {
-       Name = "${var.project}-${var.environment}-public-rttable"
-   }
+   tags = merge({Name = "${var.project}-${var.environment}-public-rttable"},local.common_tags)
+   
   
 }
 
 resource "aws_route_table" "private_rt" {
    vpc_id = aws_vpc.main.id
-   tags = {
-       Name = "${var.project}-${var.environment}-private-rttable"
-   }
+   tags = merge({Name = "${var.project}-${var.environment}-private-rttable"},local.common_tags)
   
 }
 
 resource "aws_route_table" "db_private_rt" {
    vpc_id = aws_vpc.main.id
-   tags = {
-       Name = "${var.project}-${var.environment}-dbprivate-rttable"
-   }
+   tags = merge({Name = "${var.project}-${var.environment}-db-private-rttable"},local.common_tags)
   
 }
 
@@ -71,9 +60,7 @@ resource "aws_eip" "elasticip" {
   domain = "vpc"
   region = "us-east-1"
 
-  tags = {
-    Name = "${var.project}-${var.environment}-eip"
-  }
+  tags = merge({Name = "${var.project}-${var.environment}-eip"},local.common_tags)
 }
 
 
@@ -83,9 +70,8 @@ resource "aws_nat_gateway" "nat_gw" {
     allocation_id = aws_eip.elasticip.id
     subnet_id = aws_subnet.public_subnet[0].id
 
-   tags = {
-     Name = "${var.project}-${var.environment}-nat-gw"
-   }
+    tags = merge({Name = "${var.project}-${var.environment}-nat-gw"},local.common_tags)
+   
 
 }
 
