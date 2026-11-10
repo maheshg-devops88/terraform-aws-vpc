@@ -59,7 +59,7 @@ resource "aws_route_table" "private_rt" {
   
 }
 
-resource "aws_route_table" "dbprivate_rt" {
+resource "aws_route_table" "db_private_rt" {
    vpc_id = aws_vpc.main.id
    tags = {
        Name = "${var.project}-${var.environment}-dbprivate-rttable"
