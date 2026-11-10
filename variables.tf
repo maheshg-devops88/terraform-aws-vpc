@@ -21,3 +21,8 @@ variable "igw_tags" {
   type = map(any)
   default = {}
 }
+
+
+variable "tags" {
+  default = {}
+}

@@ -16,4 +16,6 @@ locals {
     ig_final_tags = merge(local.igw_tags, local.common_tags)
 
     az_zones = slice(data.aws_availability_zones.available,0,1)
+
+    tags = merge(var.tags, local.common_tags)
 }
