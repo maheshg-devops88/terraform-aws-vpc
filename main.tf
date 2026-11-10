@@ -30,7 +30,7 @@ resource "aws_subnet" "db_private_subnet" {
   vpc_id = aws_vpc.main.id
   availability_zone = local.az_zones[count.index]
   cidr_block = local.db_private_cidr_block[count.index]
-  tags = merge({Name = "${var.project}-${var.environment}-db-privatesnet-${local.az_zones[count.index]}"},local.local.common_tags)
+  tags = merge({Name = "${var.project}-${var.environment}-db-privatesnet-${local.az_zones[count.index]}"},local.common_tags)
 }
 
 resource "aws_route_table" "public_rt" {
