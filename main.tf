@@ -38,3 +38,53 @@ resource "aws_subnet" "dbprivate_subnet" {
    Name = "${var.project}-${var.environment}-db-privatesnet-${local.az_zones[count.index]}"
 }
 }
+
+resource "aws_route_table" "public_rt" {
+   vpc_id = aws_vpc.main.vpc_id
+   route {
+       cidr_block = "0.0.0.0/0"
+       gateway_id = aws_internet_gateway.main.id
+   }
+   tags = {
+       Name = "${var.project}-${var.environment}-public-rttable"
+   }
+  
+}
+
+resource "aws_route_table" "private_rt" {
+   vpc_id = aws_vpc.main.vpc_id
+   tags = {
+       Name = "${var.project}-${var.environment}-private-rttable"
+   }
+  
+}
+
+resource "aws_route_table" "dbprivate_rt" {
+   vpc_id = aws_vpc.main.vpc_id
+   tags = {
+       Name = "${var.project}-${var.environment}-dbprivate-rttable"
+   }
+  
+}
+
+resource "aws_eip" "elasticip" {
+  domain = "vpc"
+  region = "us-east-1"
+
+  tags = {
+    Name = "${var.project}-${var.environment}-eip"
+  }
+}
+
+
+
+
+resource "aws_nat_gateway" "nat_gw" {
+    allocation_id = aws_eip.elasticip.id
+    subnet_id = aws_subnet.private_subnet[0].id
+
+   tags = {
+     Name = "${var.project}-${var.environment}-nat-gw"
+   }
+
+}
