@@ -71,7 +71,7 @@ resource "aws_nat_gateway" "nat_gw" {
     subnet_id = aws_subnet.public_subnet[0].id
 
     tags = merge({Name = "${var.project}-${var.environment}-nat-gw"},local.common_tags)
-   
+    
 
 }
 
@@ -91,4 +91,16 @@ resource "aws_route_table_association" "db_private_rt_assoc" {
   count = length(local.az_zones)
   subnet_id = aws_subnet.db_private_subnet[count.index].id
   route_table_id = aws_route_table.db_private_rt.id
+}
+
+resource "aws_route" "private_rt" {
+  route_table_id = aws_route_table.private_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id = aws_nat_gateway.nat_gw.id
+}
+
+resource "aws_route" "db_private_rt" {
+  route_table_id = aws_route_table.db_private_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id = aws_nat_gateway.nat_gw.id
 }
