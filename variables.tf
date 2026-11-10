@@ -26,3 +26,15 @@ variable "igw_tags" {
 variable "tags" {
   default = {}
 }
+
+variable "public_cidr_block" {
+  default = {}
+}
+
+variable "private_cidr_block" {
+  default = {}
+}
+
+variable "db_private_cidr_block" {
+  default = {}
+}

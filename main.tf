@@ -13,6 +13,7 @@ resource "aws_subnet" "public_subnet" {
   count = length(local.az_zones)
   vpc_id = aws_vpc.main.id
   availability_zone = local.az_zones[count.index]
+  cidr_block = local.public_cidr_block[count.index]
   tags = {
    Name = "${var.project}-${var.environment}-publicsnet-${local.az_zones[count.index]}"
 }
@@ -22,6 +23,7 @@ resource "aws_subnet" "private_subnet" {
   count = length(local.az_zones)
   vpc_id = aws_vpc.main.id
   availability_zone = local.az_zones[count.index]
+  cidr_block = local.public_cidr_block[count.index]
   tags = {
    Name = "${var.project}-${var.environment}-privatesnet-${local.az_zones[count.index]}"
 }
@@ -31,6 +33,7 @@ resource "aws_subnet" "dbprivate_subnet" {
   count = length(local.az_zones)
   vpc_id = aws_vpc.main.id
   availability_zone = local.az_zones[count.index]
+  cidr_block = local.public_cidr_block[count.index]
   tags = {
    Name = "${var.project}-${var.environment}-db-privatesnet-${local.az_zones[count.index]}"
 }
