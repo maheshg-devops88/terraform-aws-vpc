@@ -14,6 +14,6 @@ resource "aws_subnet" "public_subnet" {
   vpc_id = aws_vpc.main.id
   availability_zone = local.az_zones[count.index]
   tags = {
-   Name = "${var.project}-${var.environment}-publicsnet-${count.index}"
+   Name = "${var.project}-${var.environment}-publicsnet-${local.az_zones[count.index]}"
 }
 }
