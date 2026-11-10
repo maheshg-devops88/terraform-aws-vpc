@@ -29,7 +29,7 @@ resource "aws_subnet" "private_subnet" {
 }
 }
 
-resource "aws_subnet" "dbprivate_subnet" {
+resource "aws_subnet" "db_private_subnet" {
   count = length(local.az_zones)
   vpc_id = aws_vpc.main.id
   availability_zone = local.az_zones[count.index]
