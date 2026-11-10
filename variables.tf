@@ -45,5 +45,5 @@ variable "is_peering_required" {
 }
 
 variable "main_route_table_id" {
-   
+   default = {}
 } 
