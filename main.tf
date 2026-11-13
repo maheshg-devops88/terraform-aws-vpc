@@ -70,7 +70,7 @@ resource "aws_nat_gateway" "nat_gw" {
 
     tags = merge({Name = "${var.project}-${var.environment}-nat-gw"},local.common_tags)
     
-
+   depends_on = [ aws_eip.elasticip ]
 }
 
 resource "aws_route_table_association" "public_rt_assoc" {
