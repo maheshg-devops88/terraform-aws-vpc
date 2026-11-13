@@ -38,8 +38,6 @@ resource "aws_route_table" "public_rt" {
    vpc_id = aws_vpc.main.id
 
    tags = merge({Name = "${var.project}-${var.environment}-public-rttable"},local.common_tags)
-   
-  
 }
 
 
